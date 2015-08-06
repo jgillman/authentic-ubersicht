@@ -62,11 +62,11 @@ update: (o, dom) ->
 
   return unless data.currently?
   # get current temp from json
-  t = data.currently.temperature
+  temp = data.currently.temperature
 
   # process condition data (1/2)
-  s1 = data.currently.icon
-  s1 = s1.replace(/-/g, "_")
+  iconData = data.currently.icon
+  iconName = iconData.replace(/-/g, "_")
 
   # snippet control
 
@@ -74,30 +74,30 @@ update: (o, dom) ->
 
   # icon dump from android app
   if @showIcon
-    snippetContent.push @iconSnippet s1
+    snippetContent.push @iconSnippet iconName
 
   if @showTemp
-    snippetContent.push @temperatureSnippet t
+    snippetContent.push @temperatureSnippet temp
 
   $(dom).find('#snippet').html snippetContent.join ''
 
   # process condition data (2/2)
-  s1 = s1.replace(/(day)/g, "")
-  s1 = s1.replace(/(night)/g, "")
-  s1 = s1.replace(/_/g, " ")
-  s1 = s1.trim()
+  iconData = iconData.replace(/(day)/g, "")
+    .replace(/(night)/g, "")
+    .replace(/-/g, " ")
+    .trim()
 
   # get relevant phrase
-  @parseStatus(s1, t, dom)
+  @parseStatus(iconData, temp, dom)
 
-iconSnippet: ( s1 ) ->
-  "<img src='authentic.widget/icon/#{ @icon }/#{ s1 }.png'></img>"
+iconSnippet: ( iconName ) ->
+  "<img src='authentic.widget/icon/#{ @icon }/#{ iconName }.png'></img>"
 
-temperatureSnippet: ( t ) ->
+temperatureSnippet: ( temp ) ->
   if @unit == 'f'
-    "#{ Math.round(t * 9 / 5 + 32) } °F"
+    "#{ Math.round(temp * 9 / 5 + 32) } °F"
   else
-    "#{ Math.round(t) } °C"
+    "#{ Math.round(temp) } °C"
 
 # phrases dump from android app
 parseStatus: (summary, temperature, dom) ->
