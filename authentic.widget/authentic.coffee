@@ -74,13 +74,10 @@ update: (o, dom) ->
 
   # icon dump from android app
   if @showIcon
-    snippetContent.push "<img src='authentic.widget/icon/#{ @icon }/#{ s1 }.png'></img>"
+    snippetContent.push @iconSnippet s1
 
   if @showTemp
-    if @unit == 'f'
-      snippetContent.push "#{ Math.round(t * 9 / 5 + 32) } °F"
-    else
-      snippetContent.push "#{ Math.round(t) } °C"
+    snippetContent.push @temperatureSnippet t
 
   $(dom).find('#snippet').html snippetContent.join ''
 
@@ -92,6 +89,15 @@ update: (o, dom) ->
 
   # get relevant phrase
   @parseStatus(s1, t, dom)
+
+iconSnippet: ( s1 ) ->
+  "<img src='authentic.widget/icon/#{ @icon }/#{ s1 }.png'></img>"
+
+temperatureSnippet: ( t ) ->
+  if @unit == 'f'
+    "#{ Math.round(t * 9 / 5 + 32) } °F"
+  else
+    "#{ Math.round(t) } °C"
 
 # phrases dump from android app
 parseStatus: (summary, temperature, dom) ->
