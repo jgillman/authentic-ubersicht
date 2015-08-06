@@ -66,11 +66,8 @@ update: (o, dom) ->
 
   # process condition data
   iconData = data.currently.icon
-  iconName = iconData.replace(/-/g, "_")
-  iconData = iconData.replace(/(day)/g, "")
-    .replace(/(night)/g, "")
-    .replace(/-/g, " ")
-    .trim()
+  iconName = @normalizeIconName iconData
+  iconData = @normalizeIconData iconData
 
   # snippet control
 
@@ -96,6 +93,15 @@ temperatureSnippet: ( temp ) ->
     "#{ Math.round(temp * 9 / 5 + 32) } °F"
   else
     "#{ Math.round(temp) } °C"
+
+normalizeIconName: ( name ) ->
+  name.replace(/-/g, "_")
+
+normalizeIconData: ( data ) ->
+  data.replace(/(day)/g, "")
+    .replace(/(night)/g, "")
+    .replace(/-/g, " ")
+    .trim()
 
 # phrases dump from android app
 parseStatus: (summary, temperature, dom) ->
