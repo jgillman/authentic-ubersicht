@@ -30,22 +30,23 @@ command: "echo {}"
 makeCommand: (apiKey, location) ->
   "curl -sS 'https://api.forecast.io/forecast/#{apiKey}/#{location}?units=si&exclude=#{@exclude}'"
 
-render: (o) -> """
-  <article id="content">
+render: (o) ->
+  """
+    <article id="content">
 
-    <!-- snippet -->
-    <div id="snippet">
-    </div>
+      <!-- snippet -->
+      <div id="snippet">
+      </div>
 
-    <!--phrase text box -->
-    <h1>
-    </h1>
+      <!--phrase text box -->
+      <h1>
+      </h1>
 
-    <!-- subline text box -->
-    <h2>
-    </h2>
-  </article>
-"""
+      <!-- subline text box -->
+      <h2>
+      </h2>
+    </article>
+  """
 
 afterRender: (domEl) ->
   geolocation.getCurrentPosition (e) =>
