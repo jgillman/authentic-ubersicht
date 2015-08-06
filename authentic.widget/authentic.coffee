@@ -64,9 +64,13 @@ update: (o, dom) ->
   # get current temp from json
   temp = data.currently.temperature
 
-  # process condition data (1/2)
+  # process condition data
   iconData = data.currently.icon
   iconName = iconData.replace(/-/g, "_")
+  iconData = iconData.replace(/(day)/g, "")
+    .replace(/(night)/g, "")
+    .replace(/-/g, " ")
+    .trim()
 
   # snippet control
 
@@ -80,12 +84,6 @@ update: (o, dom) ->
     snippetContent.push @temperatureSnippet temp
 
   $(dom).find('#snippet').html snippetContent.join ''
-
-  # process condition data (2/2)
-  iconData = iconData.replace(/(day)/g, "")
-    .replace(/(night)/g, "")
-    .replace(/-/g, " ")
-    .trim()
 
   # get relevant phrase
   @parseStatus(iconData, temp, dom)
